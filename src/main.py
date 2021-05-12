@@ -15,12 +15,12 @@ def main():
     carddav_importer.connect()
     # TODO For testing only, downloading all takes pretty long
     # carddav_importer.download_contacts()
+    vcard_reader.load_from_temp()
 
-    docspell = DocspellApi(os.getenv("DOCSPELL_HOST"))
-    docspell.authenticate(os.getenv("DOCSPELL_USERNAME"), os.getenv("DOCSPELL_PASSWORD"))
+    # docspell = DocspellApi(os.getenv("DOCSPELL_HOST"))
+    # docspell.authenticate(os.getenv("DOCSPELL_USERNAME"), os.getenv("DOCSPELL_PASSWORD"))
 
     print("categories:", vcard_reader.list_category_names())
-    # vcard_reader.load_from_temp()
 
 
 if __name__ == "__main__":

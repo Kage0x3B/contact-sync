@@ -4,39 +4,45 @@ import json
 
 
 class DocspellApi:
-    def __init__(self, host):
+    def __init__(self, host: str):
         self.host = host
 
         self.api_token = ""
         self.token_created_time = -1
         self.token_valid_ms = -1
 
-    def api_route(self, path):
+    def _api_route(self, path: str) -> str:
         return self.host + "/api/v1" + path
 
-    def auth_headers(self):
+    def _auth_headers(self, skip_token_validation=False) -> dict:
         if self.token_valid_ms == -1:
             raise RuntimeError("Not authenticated")
 
-        if self.token_created_time + self.token_valid_ms > time.time():
-            self.refresh_token()
+        if not skip_token_validation and self.token_created_time + self.token_valid_ms > time.time():
+            self._refresh_token()
 
         return {
             "X-Docspell-Auth": self.api_token
         }
 
-    def authenticate(self, username, password):
-        r = requests.post(self.api_route("/open/auth/login"), json={
+    def _update_authentication(self, auth_data: dict) -> None:
+        self.api_token = auth_data["token"]
+        self.token_created_time = time.time()
+        self.token_valid_ms = auth_data["validMs"]
+
+    def authenticate(self, username: str, password: str) -> None:
+        r = requests.post(self._api_route("/open/auth/login"), json={
             "account": username,
             "password": password,
             "rememberMe": True
         }).json()
 
-        self.api_token = r["token"]
-        self.token_created_time = time.time()
-        self.token_valid_ms = r["validMs"]
+        self._update_authentication(r)
 
         print("Authenticated with Docspell, user " + r["user"])
 
-    def refresh_token(self):
-        pass
+    def _refresh_token(self) -> None:
+        r = requests.post(self._api_route("/sec/auth/session"),
+                          headers=self._auth_headers(skip_token_validation=True)).json()
+
+        self._update_authentication(r)

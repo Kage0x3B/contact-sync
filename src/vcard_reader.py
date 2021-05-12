@@ -1,5 +1,6 @@
 import os
 import vobject
+from contact_data import normalize_vcard_contact
 
 CONTACT_INFO_TYPE_MAP = {
     "mobile": "Mobile",
@@ -9,13 +10,6 @@ CONTACT_INFO_TYPE_MAP = {
     "email": "Email",
     "website": "Website"
 }
-
-
-class ContactData:
-    def __init__(self, uid, name, categories):
-        self.uid = uid
-        self.name = name
-        self.categories = categories
 
 
 class ContactInformation:
@@ -40,32 +34,19 @@ def load_from_temp():
 
     contact_list = []
 
-    fn_amount = 0
-    n_amount = 0
     for file_name in os.listdir(vcard_path):
-        # print("Reading " + file_name)
         file_path = os.path.join(vcard_path, file_name)
 
         with open(file_path) as file:
             vcard_string = file.read()
             vcard_data: vobject.base.Component = vobject.readOne(vcard_string)
-            # vcard_data.prettyPrint()
 
-            uid = "0"
-            name = ""
-            categories = ['uncategorized']
+            try:
+                contact = normalize_vcard_contact(vcard_data)
 
-            if "fn" in vcard_data.contents:
-                name = vcard_data.fn.value
-            else:
-                print("Contact " + file_name + " has no name")
-                vcard_data.prettyPrint()
-                continue
-
-            if "categories" in vcard_data.contents:
-                categories = vcard_data.categories.value
-
-            contact_list.append(ContactData(uid, name, categories))
+                contact_list.append(contact)
+            except Exception:
+                print("Contact " + file_name + " could not be parsed")
 
     print("fn_amount:" + str(fn_amount))
     print("n_amount:" + str(n_amount))
