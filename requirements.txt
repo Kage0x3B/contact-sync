@@ -1,3 +1,0 @@
-python-dotenv~=0.14.0
-vobject~=0.9.6.1
-requests~=2.25.1
