@@ -1,24 +1,24 @@
 {
-  "compilerOptions": {
-    "target": "ES2017",
-    "module": "CommonJS",
-    "outDir": "./build",
-    "lib": [
-      "ESNext"
-    ],
-    "baseUrl": "src",
-    "paths": {
+    "compilerOptions": {
+        "target": "ES2017",
+        "module": "CommonJS",
+        "outDir": "./build",
+        "lib": ["ESNext"],
+        "baseUrl": "src",
+        "paths": {},
+        "strict": true,
+        "strictPropertyInitialization": false,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
     },
-    "strict": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
-  },
-  "include": [
-    "./src/**/*"
-  ]
+    "include": ["./src/**/*"],
+    "ts-node": {
+        "transpileOnly": true,
+        "transpiler": "ts-node/transpilers/swc-experimental"
+    }
 }
