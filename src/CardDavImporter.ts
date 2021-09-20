@@ -1,4 +1,4 @@
-import {createDAVClient, DAVClient} from "tsdav";
+import {DAVClient} from "tsdav";
 
 export class CardDavImporter {
     private client: any;
@@ -23,8 +23,10 @@ export class CardDavImporter {
 
         const calendars = await client.fetchCalendars();
 
-        const calendarObjects = await client.fetchCalendarObjects({
-            calendar: calendars[0],
-        });
+        console.log("calendars", calendars)
+
+        const calendarObjects = await client.fetchCalendarObjects([{
+            calendar: calendars[0]
+        }]);
     }
 }
