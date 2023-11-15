@@ -33,6 +33,6 @@
     "ts-node": "^10.2.1",
     "tsdav": "^1.1.0",
     "typescript": "^4.4.3",
-    "vcardz.ts": "^1.4.4"
+    "vcardz": "^2.1.3"
   }
 }

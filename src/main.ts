@@ -1,6 +1,7 @@
-import { CardDavImporter } from './vcard/CardDavImporter';
+import {CardDavImporter} from './vcard/CardDavImporter';
 import config from './config';
-import { VCardImporter } from './vcard/VCardImporter';
+import {VCardImporter} from './vcard/VCardImporter';
+import * as fs from "fs";
 
 async function main() {
     const cardDavImporter = new CardDavImporter();
@@ -28,7 +29,12 @@ async function main() {
     }
 
     const vcardImporter = new VCardImporter();
-    vcardImporter.readVCards(await cardDavImporter.fetchVCards(addressBook));
+    const vcards = await cardDavImporter.fetchVCards(addressBook);
+
+    fs.writeFileSync("./vcards.json", JSON.stringify(vcards, null, 2));
+
+    console.info("Saved temp data")
+    //vcardImporter.readVCards(vcards);
 }
 
 main();

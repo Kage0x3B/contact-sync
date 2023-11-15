@@ -1,9 +1,10 @@
-import { DAVVCard } from 'tsdav/dist/types/models';
-import { vCardReader } from 'vcardz.ts';
-import { DocspellContact } from '../docspell/DocspellContact';
+import {DAVVCard} from 'tsdav/dist/types/models';
+import {vCardReader} from 'vcardz';
+import {DocspellContact} from '../docspell/DocspellContact';
 
 class VCard {
-    constructor(public id: string, public data: any) {}
+    constructor(public id: string, public data: any) {
+    }
 }
 
 export class VCardImporter {
@@ -19,9 +20,11 @@ export class VCardImporter {
             }
 
             const contactData = DocspellContact.fromVCard(vCardData);
-            console.log(vCardData);
-            console.log(contactData);
-            if (i > 10) break;
+            if (contactData.name.toLowerCase().indexOf('pia') !== -1) {
+                console.log(vCardData);
+                console.log(contactData);
+            }
+            //if (i > 10) break;
             i++;
         }
     }

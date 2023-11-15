@@ -1,4 +1,4 @@
-import { vCard } from 'vcardz.ts';
+import { vCard } from 'vcardz';
 import { ContactType } from './ContactType';
 
 const contactTypeMap: { [key: string]: ContactType } = {
